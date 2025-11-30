@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="MainDashboard">
+  <grid id="27dc6" binding="mainDashboard" layout-manager="GridLayoutManager" row-count="17" column-count="6" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+    <margin top="0" left="0" bottom="0" right="0"/>
+    <constraints>
+      <xy x="20" y="20" width="1633" height="734"/>
+    </constraints>
+    <properties>
+      <background color="-460294"/>
+    </properties>
+    <border type="none"/>
+    <children>
+      <component id="7ceb4" class="javax.swing.JButton" binding="transferButton">
+        <constraints>
+          <grid row="4" column="0" row-span="1" col-span="4" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
+            <minimum-size width="600" height="-1"/>
+            <preferred-size width="600" height="-1"/>
+            <maximum-size width="600" height="-1"/>
+          </grid>
+        </constraints>
+        <properties>
+          <background color="-16751924"/>
+          <font name="Roboto Light" size="16" style="1"/>
+          <foreground color="-460294"/>
+          <text value="Transfer Money"/>
+        </properties>
+      </component>
+      <component id="ec338" class="javax.swing.JButton" binding="WithdrawMoney">
+        <constraints>
+          <grid row="2" column="0" row-span="1" col-span="4" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
+            <minimum-size width="600" height="-1"/>
+            <preferred-size width="600" height="-1"/>
+            <maximum-size width="600" height="-1"/>
+          </grid>
+        </constraints>
+        <properties>
+          <background color="-16751924"/>
+          <font name="Roboto Light" size="16" style="1"/>
+          <foreground color="-460294"/>
+          <text value="Withdraw Money"/>
+        </properties>
+      </component>
+      <vspacer id="636a4">
+        <constraints>
+          <grid row="5" column="5" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+        </constraints>
+      </vspacer>
+      <vspacer id="60f3a">
+        <constraints>
+          <grid row="1" column="5" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+        </constraints>
+      </vspacer>
+      <vspacer id="8b2bb">
+        <constraints>
+          <grid row="1" column="0" row-span="1" col-span="3" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+        </constraints>
+      </vspacer>
+      <vspacer id="bfe5e">
+        <constraints>
+          <grid row="5" column="0" row-span="1" col-span="3" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+        </constraints>
+      </vspacer>
+      <vspacer id="f58ee">
+        <constraints>
+          <grid row="3" column="0" row-span="1" col-span="3" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+        </constraints>
+      </vspacer>
+      <vspacer id="213b">
+        <constraints>
+          <grid row="3" column="5" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+        </constraints>
+      </vspacer>
+      <grid id="4bde9" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="0" left="0" bottom="0" right="0"/>
+        <constraints>
+          <grid row="16" column="0" row-span="1" col-span="6" vsize-policy="3" hsize-policy="3" anchor="2" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <background color="-16108713"/>
+        </properties>
+        <border type="none" title="OOP LAB PROJECT" title-position="5">
+          <font name="Roboto Light" size="14" style="1"/>
+          <title-color color="-460294"/>
+        </border>
+        <children/>
+      </grid>
+      <vspacer id="9d576">
+        <constraints>
+          <grid row="15" column="3" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+        </constraints>
+      </vspacer>
+      <component id="aa21d" class="javax.swing.JButton" binding="DepositMoney">
+        <constraints>
+          <grid row="2" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false">
+            <minimum-size width="600" height="-1"/>
+            <preferred-size width="600" height="-1"/>
+            <maximum-size width="600" height="-1"/>
+          </grid>
+        </constraints>
+        <properties>
+          <background color="-16751924"/>
+          <font name="Roboto Light" size="16" style="1"/>
+          <foreground color="-460294"/>
+          <text value="Deposit Money"/>
+        </properties>
+      </component>
+      <component id="4194d" class="javax.swing.JButton" binding="logoutButton">
+        <constraints>
+          <grid row="14" column="0" row-span="1" col-span="6" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <background color="-5232073"/>
+          <font name="Roboto Light" size="16" style="1"/>
+          <foreground color="-460294"/>
+          <text value="Logout"/>
+        </properties>
+      </component>
+      <vspacer id="792b5">
+        <constraints>
+          <grid row="13" column="3" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+        </constraints>
+      </vspacer>
+      <component id="98e75" class="javax.swing.JButton" binding="issueChequeBookButton">
+        <constraints>
+          <grid row="6" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
+            <minimum-size width="600" height="-1"/>
+            <preferred-size width="600" height="-1"/>
+            <maximum-size width="600" height="-1"/>
+          </grid>
+        </constraints>
+        <properties>
+          <background color="-16751924"/>
+          <font name="Roboto Light" size="16" style="1"/>
+          <foreground color="-460294"/>
+          <text value="Issue Chequebook"/>
+        </properties>
+      </component>
+      <component id="4a16f" class="javax.swing.JButton" binding="getInterest">
+        <constraints>
+          <grid row="12" column="0" row-span="1" col-span="6" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+            <minimum-size width="600" height="-1"/>
+            <preferred-size width="600" height="-1"/>
+            <maximum-size width="600" height="-1"/>
+          </grid>
+        </constraints>
+        <properties>
+          <background color="-16751924"/>
+          <font name="Roboto Light" size="16" style="1"/>
+          <foreground color="-460294"/>
+          <text value="Get Interest"/>
+        </properties>
+      </component>
+      <vspacer id="51f50">
+        <constraints>
+          <grid row="9" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+        </constraints>
+      </vspacer>
+      <component id="81e80" class="javax.swing.JButton" binding="billPaymentButton">
+        <constraints>
+          <grid row="6" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false">
+            <minimum-size width="600" height="-1"/>
+            <preferred-size width="600" height="-1"/>
+            <maximum-size width="600" height="-1"/>
+          </grid>
+        </constraints>
+        <properties>
+          <background color="-16751924"/>
+          <font name="Roboto Light" size="16" style="1"/>
+          <foreground color="-460294"/>
+          <text value="Bill Payment"/>
+        </properties>
+      </component>
+      <component id="69e34" class="javax.swing.JButton" binding="issueCard">
+        <constraints>
+          <grid row="8" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
+            <minimum-size width="600" height="-1"/>
+            <preferred-size width="600" height="-1"/>
+            <maximum-size width="600" height="-1"/>
+          </grid>
+        </constraints>
+        <properties>
+          <background color="-16751924"/>
+          <font name="Roboto Light" size="16" style="1"/>
+          <foreground color="-460294"/>
+          <text value="Issue Credit / Debit Card"/>
+        </properties>
+      </component>
+      <vspacer id="f5a95">
+        <constraints>
+          <grid row="7" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+        </constraints>
+      </vspacer>
+      <component id="47d14" class="javax.swing.JButton" binding="viewCardDetails">
+        <constraints>
+          <grid row="8" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false">
+            <minimum-size width="600" height="-1"/>
+            <preferred-size width="600" height="-1"/>
+            <maximum-size width="600" height="-1"/>
+          </grid>
+        </constraints>
+        <properties>
+          <background color="-16751924"/>
+          <font name="Roboto Light" size="16" style="1"/>
+          <foreground color="-460294"/>
+          <text value="View Card Details"/>
+        </properties>
+      </component>
+      <component id="e0ef0" class="javax.swing.JButton" binding="viewLoanPackages">
+        <constraints>
+          <grid row="10" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
+            <minimum-size width="600" height="-1"/>
+            <preferred-size width="600" height="-1"/>
+            <maximum-size width="600" height="-1"/>
+          </grid>
+        </constraints>
+        <properties>
+          <background color="-16751924"/>
+          <font name="Roboto Light" size="16" style="1"/>
+          <foreground color="-460294"/>
+          <text value="View Loan Packages"/>
+        </properties>
+      </component>
+      <vspacer id="3aaba">
+        <constraints>
+          <grid row="11" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+        </constraints>
+      </vspacer>
+      <component id="67ff0" class="javax.swing.JButton" binding="responseButton">
+        <constraints>
+          <grid row="10" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false">
+            <minimum-size width="600" height="-1"/>
+            <preferred-size width="600" height="-1"/>
+            <maximum-size width="600" height="-1"/>
+          </grid>
+        </constraints>
+        <properties>
+          <background color="-16751924"/>
+          <font name="Roboto Light" size="16" style="1"/>
+          <foreground color="-460294"/>
+          <text value="Feedback, Queries and Suggestions"/>
+        </properties>
+      </component>
+      <grid id="dd6ad" binding="header" layout-manager="GridLayoutManager" row-count="3" column-count="8" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="0" left="0" bottom="0" right="0"/>
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="6" vsize-policy="3" hsize-policy="6" anchor="1" fill="1" indent="0" use-parent-layout="false">
+            <minimum-size width="-1" height="250"/>
+            <preferred-size width="-1" height="250"/>
+            <maximum-size width="-1" height="250"/>
+          </grid>
+        </constraints>
+        <properties>
+          <background color="-16108713"/>
+          <font name="Roboto Light" size="14" style="1"/>
+          <foreground color="-460294"/>
+        </properties>
+        <border type="line" title="Scam Bank Limited">
+          <font name="Roboto Light" size="14" style="1"/>
+          <title-color color="-460294"/>
+          <color color="-460294"/>
+        </border>
+        <children>
+          <component id="ff3c1" class="javax.swing.JTextField" binding="nameField">
+            <constraints>
+              <grid row="0" column="1" row-span="2" col-span="4" vsize-policy="0" hsize-policy="6" anchor="4" fill="0" indent="0" use-parent-layout="false">
+                <minimum-size width="400" height="-1"/>
+                <preferred-size width="400" height="-1"/>
+                <maximum-size width="400" height="-1"/>
+              </grid>
+            </constraints>
+            <properties>
+              <background color="-16108713"/>
+              <font name="Fira Code Medium" size="14" style="1"/>
+              <foreground color="-460294"/>
+              <text value=""/>
+            </properties>
+          </component>
+          <component id="e7013" class="javax.swing.JTextField" binding="balanceField">
+            <constraints>
+              <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="4" fill="0" indent="0" use-parent-layout="false">
+                <minimum-size width="300" height="-1"/>
+                <preferred-size width="300" height="-1"/>
+                <maximum-size width="300" height="-1"/>
+              </grid>
+            </constraints>
+            <properties>
+              <background color="-16108713"/>
+              <font name="Roboto Light" size="12" style="1"/>
+              <foreground color="-460294"/>
+            </properties>
+          </component>
+          <grid id="eff28" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <grid row="0" column="7" row-span="3" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <background color="-16108713"/>
+            </properties>
+            <border type="line" title="Sample Card">
+              <font name="Fira Code" size="12" style="1"/>
+              <title-color color="-460294"/>
+              <color color="-1"/>
+            </border>
+            <children>
+              <component id="35078" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
+                    <minimum-size width="-1" height="160"/>
+                    <preferred-size width="-1" height="160"/>
+                    <maximum-size width="-1" height="160"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <icon value="Images/credit card.png"/>
+                  <text value=""/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+          <component id="3d463" class="javax.swing.JButton" binding="showHideButton">
+            <constraints>
+              <grid row="2" column="4" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                <minimum-size width="50" height="20"/>
+                <preferred-size width="50" height="20"/>
+                <maximum-size width="50" height="20"/>
+              </grid>
+            </constraints>
+            <properties>
+              <background color="-16108713"/>
+              <borderPainted value="false"/>
+              <font name="Roboto Light" size="16" style="1"/>
+              <foreground color="-460294"/>
+              <text value=""/>
+            </properties>
+          </component>
+          <hspacer id="c6362">
+            <constraints>
+              <grid row="2" column="6" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+          </hspacer>
+          <component id="8f384" class="javax.swing.JComboBox" binding="menuComboBox">
+            <constraints>
+              <grid row="0" column="0" row-span="2" col-span="1" vsize-policy="0" hsize-policy="2" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <background color="-16108713"/>
+              <font name="Fira Code Light" size="10" style="1"/>
+              <foreground color="-460294"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+      <component id="9fd54" class="javax.swing.JButton" binding="viewTranscations">
+        <constraints>
+          <grid row="4" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false">
+            <minimum-size width="600" height="-1"/>
+            <preferred-size width="600" height="-1"/>
+            <maximum-size width="600" height="-1"/>
+          </grid>
+        </constraints>
+        <properties>
+          <background color="-16751924"/>
+          <font name="Roboto Light" size="16" style="1"/>
+          <foreground color="-460294"/>
+          <text value="View Account Statement"/>
+        </properties>
+      </component>
+    </children>
+  </grid>
+</form>
