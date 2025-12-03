@@ -184,19 +184,25 @@ class Admin extends User {
         }
     }
 
-    public static String[] loginAndgetAdminDetails(String username, String password) throws IOException {
-        try (BufferedReader br = new BufferedReader(new FileReader("src/admins.txt"))) {
-            String newline;
-            while ((newline = br.readLine()) != null) {
-                String[] details = newline.split(",");
-                if (username.equalsIgnoreCase(details[4]) && (password.equals(details[5]))){
-                    br.close();
-                    return details;
-                }
-            }
-        }
-        return null;
+//    public static String[] loginAndgetAdminDetails(String username, String password) throws IOException {
+//        try (BufferedReader br = new BufferedReader(new FileReader("src/admins.txt"))) {
+//            String newline;
+//            while ((newline = br.readLine()) != null) {
+//                String[] details = newline.split(",");
+//                if (username.equalsIgnoreCase(details[4]) && (password.equals(details[5]))){
+//                    br.close();
+//                    return details;
+//                }
+//            }
+//        }
+//        return null;
+//    }
+
+    public static String[] loginAndgetAdminDetails(String username, String password) {
+        return AdminDAO.loginAndGetAdminDetails(username, password);
     }
+
+
     public boolean editCustomerDetails(String customerAccNum,String newDetails) throws IOException {
         File AccountHolderFile=new File("src/Account_Holders.txt");
         BufferedReader br=new BufferedReader(new FileReader(AccountHolderFile));
