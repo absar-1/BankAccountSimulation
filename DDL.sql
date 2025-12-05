@@ -1,7 +1,7 @@
 /*
 CREATE TABLE Admins (
     id NVARCHAR(50) PRIMARY KEY,
-    admin_Name NVARCHAR(100) NOT NULL,
+    admin_name NVARCHAR(100) NOT NULL,
     age INT NOT NULL,
     gender NVARCHAR(10) NOT NULL,
     username NVARCHAR(50) UNIQUE NOT NULL,
