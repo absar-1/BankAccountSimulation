@@ -1,6 +1,8 @@
 import java.io.*;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -47,22 +49,8 @@ abstract class User implements Identifiable {
 class Admin extends User {
     private static int assignId;
     private final String superAdminID="HBL-0001";
-    public Admin(String name, String cnic, String contact, String age, String gender, String username, String password,String email) throws IOException {
-        super(name, age, gender, username, password, cnic, contact,email);
-        File adminFile = new File("src/admins.txt");
-        assignId = 0;
-        if (adminFile.exists()) {
-            try (BufferedReader br = new BufferedReader(new FileReader(adminFile))) {
-                while (br.readLine() != null) {
-                    assignId++;
-                }
-            }
-        }
-        this.id = "HBL(Admin)-000" + (++assignId);
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(adminFile, true))) {
-            bw.write(this.id + "," + this.name + "," + this.age + "," + this.gender + "," + this.username + "," + this.password + "," + this.cnic + "," + this.contact+","+this.email);
-            bw.newLine();
-        }
+    public Admin(String name, String cnic, String contact, String age, String gender, String password,String email) throws IOException {
+        AdminDAO.addAdmin(name,cnic,contact,age,gender,password,email);
     }
 
 
@@ -78,30 +66,7 @@ class Admin extends User {
         this.email=email;
     }
     public boolean removeAdmin(String ID) throws IOException {
-        File file = new File("src/Admins.txt");
-        BufferedReader br = new BufferedReader(new FileReader(file));
-        ArrayList<String> lines = new ArrayList<>();
-        String line;
-        boolean removed = false;
-
-        while ((line = br.readLine()) != null) {
-            String[] details = line.split(",");
-            if (details[0].equals(ID)) {
-                removed = true;
-                continue;
-            }
-            lines.add(line);
-        }
-        br.close();
-        BufferedWriter bw = new BufferedWriter(new FileWriter(file));
-        for (String l : lines) {
-            bw.write(l);
-            bw.newLine();
-        }
-        bw.close();
-
-        return removed;
-
+        return AdminDAO.removeAdmin(ID);
     }
     public boolean removeCustomer(String ID) throws IOException {
         File inputFile = new File("src/Account_Holders.txt");
@@ -132,56 +97,11 @@ class Admin extends User {
         }
         return removed;
     }
-    public boolean addBank(String bankName) throws IOException {
-        File bankFile=new File("src/Banks.txt");
-        BufferedReader br=new BufferedReader(new FileReader(bankFile));
-        String line;
-        ArrayList<String> lines=new ArrayList<>();
-        while((line=br.readLine())!=null){
-            if(bankName.equals(line)){
-                return false;
-            }
-            else{
-                lines.add(line);
-            }
-        }
-        br.close();
-        lines.add(bankName);
-        BufferedWriter bw=new BufferedWriter(new FileWriter(bankFile));
-        for (int i = 0; i <lines.size() ; i++) {
-            bw.write(lines.get(i));
-            bw.newLine();
-        }
-        bw.close();
-        return true;
+    public boolean addBank(String bankName){
+        return AdminDAO.addBank(bankName);
     }
     public boolean removeBank(String bankName) throws IOException {
-        File bankFile=new File("src/Banks.txt");
-        BufferedReader br=new BufferedReader(new FileReader(bankFile));
-        String line;
-        ArrayList<String> lines=new ArrayList<>();
-        boolean removed = false;
-        while((line=br.readLine())!=null){
-            if(!bankName.equals(line)){
-                lines.add(line);
-            }
-            else{
-                removed = true;
-            }
-        }
-        br.close();
-        if(!removed){
-            return false;
-        }
-        else {
-            BufferedWriter bw = new BufferedWriter(new FileWriter(bankFile));
-            for (int i = 0; i < lines.size(); i++) {
-                bw.write(lines.get(i));
-                bw.newLine();
-            }
-            bw.close();
-            return true;
-        }
+        return AdminDAO.removeBank(bankName);
     }
 
 //    public static String[] loginAndgetAdminDetails(String username, String password) throws IOException {
@@ -280,17 +200,7 @@ class Admin extends User {
             return allResponses;
         }
         public ArrayList<String> getAllAdmins() throws IOException {
-            BufferedReader br=new BufferedReader(new FileReader("src/admins.txt"));
-            ArrayList<String> allAdmins=new ArrayList<>();
-            String line;
-            while((line=br.readLine())!=null){
-                String[] details=line.split(",");
-                if(!details[0].equalsIgnoreCase(superAdminID)){
-                    allAdmins.add(details[0]+","+details[1]+","+details[2]+","+details[3]+","+details[4]+","+details[6]+","+details[7]+","+details[8]);
-                }
-            }
-            br.close();
-            return allAdmins;
+            return AdminDAO.getAllAdmins();
         }
 }
 
@@ -303,83 +213,59 @@ abstract class AccountHolder extends User {
 
     final File AccountHolderFile = new File("src/Account_Holders.txt");
 
-    protected AccountHolder(String name, String age, String gender, String username, String password, String accType, String address, String contact, String cnic, String email) throws IOException { // used when admin opens account
-        super(name, age, gender, username, password, cnic, contact,email);
-        this.accountType = accType;
-        this.balance = 0;
-        this.address = address;
-        this.email = email;
-        Random random = new Random();
-        this.accountNumber = "011102220333" + (random.nextInt(999, 9999));
-        BufferedReader br = new BufferedReader(new FileReader(AccountHolderFile));
-        if (br.readLine() == null) {
-            assignId = 0;
-            br.close();
-        } else {
-            String newline;
-            int linesCount = 0;
-            while ((newline = br.readLine()) != null) {
-                linesCount++;
-            }
-            br.close();
-            assignId = linesCount;
-        }
-        this.id = "HBL(" + accType.substring(0, 1) + "A)-000" + (++this.assignId);
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(AccountHolderFile, true))) {
-            bw.write(this.id + "," + this.name + "," + this.balance + "," + this.age + "," + this.gender + "," + this.username + "," + this.password + "," + this.accountNumber + "," + this.accountType + "," + this.address + "," + this.contact + "," + this.cnic + "," + this.email);
-            bw.newLine();
-        }
+    protected AccountHolder(String name, String age, String gender,String accType, String address, String contact, String cnic, String email){ // used when admin opens account
+        AdminDAO.addAccountHolder(name,age,gender,accType,address,contact,cnic,email);
     }
 
-    public AccountHolder(String name, String age, String gender, String accType, String address, String contact, String cnic, String email) throws IOException { // used when request accepted
-        this.name = name;
-        this.age = age;
-        this.gender = gender;
-        this.accountType = accType;
-        this.balance = 0;
-        this.contact = contact;
-        this.address = address;
-        this.email = email;
-        this.cnic = cnic;
-        Random random = new Random();
-        this.accountNumber = "011102220333" + (random.nextInt(999, 9999));
-        boolean foundUsername=false;
-        BufferedReader br = new BufferedReader(new FileReader(AccountHolderFile));
-        String newline;
-        int linesCount = 0;
-        while ((newline = br.readLine()) != null) {
-            String[] details = newline.split(",");
-            linesCount++;
-            if (details[1].equalsIgnoreCase(this.name)) {
-                foundUsername = true;
-            }
-        }
-        br.close();
-        assignId = linesCount;
-        this.id = "HBL(" + accType.substring(0, 1) + "A)-000" + (++assignId);
-        this.username="";
-        if(!foundUsername) {
-            String [] parts=name.split(" ");
-            for (int i = 0; i <parts.length ; i++) {
-                this.username+=parts[i]+"";
-            }
-            this.username = this.username.toLowerCase().trim();
-            System.out.println(this.username);
-        }
-        else{
-            String [] parts=name.split(" ");
-            for (int i = 0; i <parts.length ; i++) {
-                this.username+=parts[i]+"";
-            }
-            this.username = (this.username.toLowerCase() + assignId).trim();
-            System.out.println(username);
-        }
-        this.password = String.valueOf(random.nextInt(999, 9999));
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(AccountHolderFile, true))) {
-            bw.write(this.id + "," + this.name + "," + this.balance + "," + this.age + "," + this.gender + "," + this.username + "," + this.password + "," + this.accountNumber + "," + this.accountType + "," + this.address + "," + this.contact + "," + this.cnic + "," + this.email);
-            bw.newLine();
-        }
-    }
+//    public AccountHolder(String name, String age, String gender, String accType, String address, String contact, String cnic, String email) throws IOException { // used when request accepted
+//        this.name = name;
+//        this.age = age;
+//        this.gender = gender;
+//        this.accountType = accType;
+//        this.balance = 0;
+//        this.contact = contact;
+//        this.address = address;
+//        this.email = email;
+//        this.cnic = cnic;
+//        Random random = new Random();
+//        this.accountNumber = "011102220333" + (random.nextInt(999, 9999));
+//        boolean foundUsername=false;
+//        BufferedReader br = new BufferedReader(new FileReader(AccountHolderFile));
+//        String newline;
+//        int linesCount = 0;
+//        while ((newline = br.readLine()) != null) {
+//            String[] details = newline.split(",");
+//            linesCount++;
+//            if (details[1].equalsIgnoreCase(this.name)) {
+//                foundUsername = true;
+//            }
+//        }
+//        br.close();
+//        assignId = linesCount;
+//        this.id = "HBL(" + accType.substring(0, 1) + "A)-000" + (++assignId);
+//        this.username="";
+//        if(!foundUsername) {
+//            String [] parts=name.split(" ");
+//            for (int i = 0; i <parts.length ; i++) {
+//                this.username+=parts[i]+"";
+//            }
+//            this.username = this.username.toLowerCase().trim();
+//            System.out.println(this.username);
+//        }
+//        else{
+//            String [] parts=name.split(" ");
+//            for (int i = 0; i <parts.length ; i++) {
+//                this.username+=parts[i]+"";
+//            }
+//            this.username = (this.username.toLowerCase() + assignId).trim();
+//            System.out.println(username);
+//        }
+//        this.password = String.valueOf(random.nextInt(999, 9999));
+//        try (BufferedWriter bw = new BufferedWriter(new FileWriter(AccountHolderFile, true))) {
+//            bw.write(this.id + "," + this.name + "," + this.balance + "," + this.age + "," + this.gender + "," + this.username + "," + this.password + "," + this.accountNumber + "," + this.accountType + "," + this.address + "," + this.contact + "," + this.cnic + "," + this.email);
+//            bw.newLine();
+//        }
+//    }
 
     protected AccountHolder(String id, String name, double balance, String age, String gender, String username, String password, String accountNumber, String accType, String address, String contact, String cnic, String email) {  // used for already stored user
         this.balance = balance;
@@ -527,17 +413,10 @@ abstract class AccountHolder extends User {
         return null;
     }
     public static String[] loginAndgetAccountHolderdetails(String username, String password) throws IOException {
-        try (BufferedReader br = new BufferedReader(new FileReader("src/Account_Holders.txt"))) {
-            String newline;
-            while ((newline = br.readLine()) != null) {
-                String[] details = newline.split(",");
-                if (username.equalsIgnoreCase(details[5]) && (password.equals(details[6]))) {
-                    br.close();
-                    return details;
-                }
-            }
-        }
-        return null;
+
+       String[] result=AccountHolderDAO.loginAndgetAccountHolderdetails(username,password);
+        System.out.println(Arrays.toString(result));
+       return result;
     }
     public static String[] getAccountHolderdetails(String accountNumber) throws IOException {
         try (BufferedReader br = new BufferedReader(new FileReader("src/Account_Holders.txt"))) {
@@ -757,9 +636,9 @@ class SavingsAccountHolder extends AccountHolder {
         super(id, name, balance, age, gender, username, accountNumber, password, accType, address, contact, cnic, email);
     }
 
-    public SavingsAccountHolder(String name, String age, String gender, String username, String password, String accType, String address, String contact, String cnic, String email) throws IOException {
-        super(name, age, gender, username, password, accType, address, contact, cnic, email);
-    }
+//    public SavingsAccountHolder(String name, String age, String gender, String username, String password, String accType, String address, String contact, String cnic, String email) throws IOException {
+//        super(name, age, gender, username, password, accType, address, contact, cnic, email);
+//    }
     public SavingsAccountHolder(String name, String age, String gender, String accType, String address, String contact, String cnic, String email) throws IOException { // constructor when request accepted as auto username and password would be assigned
         super(name, age, gender, accType, address, contact, cnic, email);
     }
@@ -797,9 +676,9 @@ class CurrentAccountHolder extends AccountHolder {
         return null;
     }
 
-    public CurrentAccountHolder(String name, String age, String gender, String username, String password, String accType, String address, String contact, String cnic, String email) throws IOException {
-        super(name, age, gender, username, password, accType, address, contact, cnic, email);
-    }
+//    public CurrentAccountHolder(String name, String age, String gender, String username, String password, String accType, String address, String contact, String cnic, String email) throws IOException {
+//        super(name, age, gender, username, password, accType, address, contact, cnic, email);
+//    }
     public CurrentAccountHolder(String name, String age, String gender, String accType, String address, String contact, String cnic, String email) throws IOException {
         super(name, age, gender, accType, address, contact, cnic, email);
     }

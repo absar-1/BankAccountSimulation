@@ -16,8 +16,6 @@ public class OpenAccount extends JFrame {
     private JTextField contactTF;
     private JTextField addressTF;
     private JTextField emailTF;
-    private JTextField passTF;
-    private JTextField usernameTF;
     private JPanel header;
     private JTextField admintextfield;
     private JLabel adminNameLabel;
@@ -65,12 +63,8 @@ public class OpenAccount extends JFrame {
                 String contact = contactTF.getText();
                 String address = addressTF.getText();
                 String email = emailTF.getText();
-                String pass = passTF.getText();
-                String username = usernameTF.getText();
                 String acctyp = acctypCombobox.getSelectedItem().toString();
                 try {
-                    if (Validations.checkUsername(username, false)) {
-                        if(Validations.checkPassword(pass, false)) {
                             if (Validations.checkEmail(email,false)) {
                                 if (!gender.equalsIgnoreCase("Select Gender")) {
                                     if (acctyp.equals("Select Account Type")) {
@@ -93,7 +87,7 @@ public class OpenAccount extends JFrame {
                                     }
                                     else if (acctyp.equalsIgnoreCase("Savings")) {
                                         try {
-                                            AccountHolder acc = new SavingsAccountHolder(name, age, gender, username, pass, acctyp, address, contact, cnic, email);
+                                            AccountHolder acc = new SavingsAccountHolder(name, age, gender, acctyp, address, contact, cnic, email);
                                             JOptionPane.showMessageDialog(null, "Savings Account Created");
 
                                         } catch (IOException ex) {
@@ -101,7 +95,7 @@ public class OpenAccount extends JFrame {
                                         }
                                     } else {
                                         try {
-                                            AccountHolder acc = new CurrentAccountHolder(name, age, gender, username, pass, acctyp, address, contact, cnic, email);
+                                            AccountHolder acc = new CurrentAccountHolder(name, age, gender, acctyp, address, contact, cnic, email);
                                             JOptionPane.showMessageDialog(null, "Current Account Created");
                                             AdminDashboard ad = new AdminDashboard(a);
                                             ad.setVisible(true);
@@ -117,14 +111,6 @@ public class OpenAccount extends JFrame {
                             else{
                                 JOptionPane.showMessageDialog(null, "Invalid email or already in use");
                             }
-                        }
-                        else {
-                            JOptionPane.showMessageDialog(null, "Invalid Password");
-                        }
-                    }
-                    else{
-                        JOptionPane.showMessageDialog(null, "Invalid Username or already taken");
-                    }
                 }
                 catch (IOException ex) {}
             }

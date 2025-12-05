@@ -17,7 +17,6 @@ public class AddAdminDashboard extends JFrame { // by ramsha
     private JTextField ageTF;
     private JTextField cnicTF;
     private JTextField contactTF;
-    private JTextField usernameTF;
     private JTextField passTF;
     private JComboBox genderCombobox;
     private JPanel AddadminPanel;
@@ -58,13 +57,10 @@ public class AddAdminDashboard extends JFrame { // by ramsha
                     String contact = contactTF.getText();
                     String cnic=cnicTF.getText();
                     String age = ageTF.getText();
-                    String username=usernameTF.getText();
                     String pass=passTF.getText();
                     try {
                         if (!Validations.checkPassword(pass, true)) {
                             JOptionPane.showMessageDialog(null, "Invalid Password");
-                        } else if (!Validations.checkUsername(username, true)) {
-                            JOptionPane.showMessageDialog(null, "Invalid Username or already taken");
                         }
                         else if(!Validations.checkEmail(emailaddress,true)){
                             JOptionPane.showMessageDialog(null, "Invalid Email or already taken");
@@ -82,7 +78,7 @@ public class AddAdminDashboard extends JFrame { // by ramsha
                             JOptionPane.showMessageDialog(null, "Invalid Name");
                         }
                         else {
-                            Admin admin=new Admin(name,cnic,contact,age,gender,username,pass,emailaddress);
+                            Admin admin=new Admin(name,cnic,contact,age,gender,pass,emailaddress);
                             JOptionPane.showMessageDialog(null, "Admin added");
                         }
                     }
