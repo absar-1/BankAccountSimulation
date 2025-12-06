@@ -66,29 +66,33 @@ public class BillPayment extends JFrame { // by hateem
                 } else {
                     try {
                         if(amountTF.getText().matches(".*[a-zA-Z].*")){
-                            JOptionPane.showMessageDialog(null, "Please enter a valid amount in number to transfer");
+                            JOptionPane.showMessageDialog(null, "Please enter a valid amount in number to pay");
                         }
                         else if (Transaction.checkAmount(amountTF.getText())) {
                             double amount = Double.parseDouble(amountTF.getText());
                             if (amount <= accountHolder.getBalance()) {
-                                Transaction t = new Transaction(accountHolder);
-                                if (t.billPayment(amount, selectedBill)) {
+                                boolean success = TransactionDAO.billPayment(accountHolder.getAccountNumber(), amount, selectedBill);
+                                if (success) {
                                     JOptionPane.showMessageDialog(null, selectedBill + " paid successfully");
-                                    LocalDateTime dateNtime=LocalDateTime.now();
-                                    Receipt r=new Receipt(selectedBill,amount,"Bill Payment","Date:" + dateNtime.getDayOfMonth() + "/" + dateNtime.getMonth() + "/" + dateNtime.getYear() + "," + "Time:" + dateNtime.getHour() + ":" + dateNtime.getMinute(),accountHolder);
+                                    LocalDateTime dateNtime = LocalDateTime.now();
+                                    Receipt r = new Receipt(selectedBill, amount, "Bill Payment",
+                                        "Date:" + dateNtime.getDayOfMonth() + "/" + dateNtime.getMonth() + "/" +
+                                        dateNtime.getYear() + "," + "Time:" + dateNtime.getHour() + ":" +
+                                        dateNtime.getMinute(), accountHolder);
                                     r.setVisible(true);
                                     dispose();
                                 } else {
-                                    JOptionPane.showMessageDialog(null, selectedBill + " payment failed");
+                                    JOptionPane.showMessageDialog(null, selectedBill + " payment failed. Please check your balance.");
                                 }
                             } else {
-                                JOptionPane.showMessageDialog(null, "Not enough balance");
+                                JOptionPane.showMessageDialog(null, "Insufficient Funds");
                             }
                         } else {
                             JOptionPane.showMessageDialog(null, "Enter amount greater than 0 PKR");
                         }
-                    } catch (IOException ex) {
-                        throw new RuntimeException(ex);
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                        JOptionPane.showMessageDialog(null, "Error during payment: " + ex.getMessage());
                     }
                 }
             }

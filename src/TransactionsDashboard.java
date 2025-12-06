@@ -45,15 +45,33 @@ public class TransactionsDashboard extends JFrame {
             AccountHolder cah=CurrentAccountHolder.getAccountHolderObject(accountHolder.getId());
             t=new Transaction(cah);
         }
-        String[][] details=t.getTransactionDetails();
-        for(int i=0;i<details.length;i++){
-            tableModel.addRow(new Object[]{"","","","","",""});
-            String[] oneTransactionDetail=new String[details[i].length-1];
-            for(int j=0;j<oneTransactionDetail.length;j++){
-                oneTransactionDetail[j]=details[i][j+1];
+//        String[][] details=t.getTransactionDetails();
+//        for(int i=0;i<details.length;i++){
+//            tableModel.addRow(new Object[]{"","","","","",""});
+//            String[] oneTransactionDetail=new String[details[i].length-1];
+//            for(int j=0;j<oneTransactionDetail.length;j++){
+//                oneTransactionDetail[j]=details[i][j+1];
+//            }
+//            tableModel.addRow(oneTransactionDetail);
+//        }
+        String[][] details;
+        try {
+            details = TransactionDAO.getTransactionsByAccountId(accountHolder.getId());
+        } catch (Exception e) {
+            e.printStackTrace();
+            details = new String[0][];
+        }
+        for (int i = 0; i < details.length; i++) {
+            // the UI expects rows starting from fields after account id, so create same shape
+            tableModel.addRow(new Object[]{"", "", "", "", "", ""});
+            String[] oneTransactionDetail = new String[details[i].length - 1];
+            for (int j = 0; j < oneTransactionDetail.length; j++) {
+                oneTransactionDetail[j] = details[i][j + 1];
             }
             tableModel.addRow(oneTransactionDetail);
         }
+
+
         exitButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {
@@ -97,15 +115,34 @@ public class TransactionsDashboard extends JFrame {
             AccountHolder cah=CurrentAccountHolder.getAccountHolderObject(accountHolder.getId());
             t=new Transaction(cah);
         }
-        String[][] details=t.getTransactionDetails();
-        for(int i=0;i<details.length;i++){
-            tableModel.addRow(new Object[]{"","","","","",""});
-            String[] oneTransactionDetail=new String[details[i].length-1];
-            for(int j=0;j<oneTransactionDetail.length;j++){
-                oneTransactionDetail[j]=details[i][j+1];
+//        String[][] details=t.getTransactionDetails();
+//        for(int i=0;i<details.length;i++){
+//            tableModel.addRow(new Object[]{"","","","","",""});
+//            String[] oneTransactionDetail=new String[details[i].length-1];
+//            for(int j=0;j<oneTransactionDetail.length;j++){
+//                oneTransactionDetail[j]=details[i][j+1];
+//            }
+//            tableModel.addRow(oneTransactionDetail);
+//        }
+
+        String[][] details;
+        try {
+            details = TransactionDAO.getTransactionsByAccountId(accountHolder.getId());
+        } catch (Exception e) {
+            e.printStackTrace();
+            details = new String[0][];
+        }
+        for (int i = 0; i < details.length; i++) {
+            // the UI expects rows starting from fields after account id, so create same shape
+            tableModel.addRow(new Object[]{"", "", "", "", "", ""});
+            String[] oneTransactionDetail = new String[details[i].length - 1];
+            for (int j = 0; j < oneTransactionDetail.length; j++) {
+                oneTransactionDetail[j] = details[i][j + 1];
             }
             tableModel.addRow(oneTransactionDetail);
         }
+
+
         exitButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 AdminDashboard ad = new AdminDashboard(admin);

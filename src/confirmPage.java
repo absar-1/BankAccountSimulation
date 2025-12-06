@@ -29,27 +29,27 @@ public class confirmPage extends JFrame { // by hateem
                 public void actionPerformed(ActionEvent e) {
                     try {
                         if (accountHolder.getBalance() >= 500) {
-                            Transaction t = new Transaction(accountHolder);
-                            if (t.issueChequebook()) {
+                            boolean success = TransactionDAO.issueChequebook(accountHolder.getAccountNumber());
+                            if (success) {
                                 JOptionPane.showMessageDialog(null, "Chequebook Issued Successfully");
                                 LocalDateTime dateNtime = LocalDateTime.now();
-                                Receipt r=new Receipt("Chequebook Bought",500,"Chequebook Purchased","Date:" + dateNtime.getDayOfMonth() + "/" + dateNtime.getMonth() + "/" + dateNtime.getYear() + "," + "Time:" + dateNtime.getHour() + ":" + dateNtime.getMinute(),accountHolder);
-                                if (accountHolder.getAccountType().equalsIgnoreCase("Savings")) {
-                                    MainDashboard md = new MainDashboard(SavingsAccountHolder.getAccountHolderObject(accountHolder.getId()));
-                                    md.setVisible(true);
-                                    dispose();
-                                } else {
-                                    MainDashboard md = new MainDashboard(CurrentAccountHolder.getAccountHolderObject(accountHolder.getId()));
-                                    md.setVisible(true);
-                                    dispose();
-                                }
-
+                                Receipt r = new Receipt("Chequebook Bought", 500, "Chequebook Purchased",
+                                    "Date:" + dateNtime.getDayOfMonth() + "/" + dateNtime.getMonth() + "/" +
+                                    dateNtime.getYear() + "," + "Time:" + dateNtime.getHour() + ":" +
+                                    dateNtime.getMinute(), accountHolder);
+                                r.setVisible(true);
+                                MainDashboard md = new MainDashboard(accountHolder);
+                                md.setVisible(true);
+                                dispose();
+                            } else {
+                                JOptionPane.showMessageDialog(null, "Failed to issue chequebook. Please check your balance.");
                             }
                         } else {
                             JOptionPane.showMessageDialog(null, "You have not enough money to issue chequebook");
                         }
-                    } catch (IOException ex) {
-                        throw new RuntimeException(ex);
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                        JOptionPane.showMessageDialog(null, "Error issuing chequebook: " + ex.getMessage());
                     }
                 }
             });

@@ -33,18 +33,22 @@ public class WithdrawDashboard extends JFrame {
                        if (amount % 500 == 0) {
                            try {
                                if (accountHolder.getBalance() >= amount) {
-                                   Transaction t = new Transaction(accountHolder);
-                                   if (t.withdraw(amount)) {
+                                   boolean success = TransactionDAO.withdraw(accountHolder.getAccountNumber(), amount);
+                                   if (success) {
                                        LocalDateTime dateNtime = LocalDateTime.now();
                                        JOptionPane.showMessageDialog(null, "Withdraw Successful");
                                        Receipt r = new Receipt(amount, "Withdrawal", "Date:" + dateNtime.getDayOfMonth() + "/" + dateNtime.getMonth() + "/" + dateNtime.getYear() + "," + "Time:" + dateNtime.getHour() + ":" + dateNtime.getMinute(), accountHolder);
                                        r.setVisible(true);
                                        dispose();
+                                   } else {
+                                       JOptionPane.showMessageDialog(null, "Withdrawal failed. Please check your balance.");
                                    }
                                } else {
                                    JOptionPane.showMessageDialog(null, "Insufficient Funds");
                                }
                            } catch (Exception e1) {
+                               e1.printStackTrace();
+                               JOptionPane.showMessageDialog(null, "Error during withdrawal: " + e1.getMessage());
                            }
                        }
                        else{

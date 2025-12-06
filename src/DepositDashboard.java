@@ -38,33 +38,19 @@ public class DepositDashboard extends JFrame {  // by hateem
                     if (Transaction.checkAmount(amountTF.getText())) {
                         double amount = Double.parseDouble(amountTF.getText());
                         try {
-                            if (accountHolder.getAccountType().equalsIgnoreCase("Savings")) {
-                                try {
-                                    SavingsAccountHolder sah = SavingsAccountHolder.getAccountHolderObject(accountHolder.getId());
-                                    Transaction t = new Transaction(sah);
-                                    LocalDateTime dateNtime = LocalDateTime.now();
-                                    t.deposit(amount,false);
-                                    JOptionPane.showMessageDialog(null, amount + " PKR Successfully Deposited");
-                                    Receipt r = new Receipt(amount, "Deposit", "Date:" + dateNtime.getDayOfMonth() + "/" + dateNtime.getMonth() + "/" + dateNtime.getYear() + "," + "Time:" + dateNtime.getHour() + ":" + dateNtime.getMinute(), accountHolder);
-                                    r.setVisible(true);
-                                    dispose();
-                                } catch (IOException e1) {
-                                }
+                            LocalDateTime dateNtime = LocalDateTime.now();
+                            boolean success = TransactionDAO.deposit(accountHolder.getAccountNumber(), amount, false);
+                            if (success) {
+                                JOptionPane.showMessageDialog(null, amount + " PKR Successfully Deposited");
+                                Receipt r = new Receipt(amount, "Deposit", "Date:" + dateNtime.getDayOfMonth() + "/" + dateNtime.getMonth() + "/" + dateNtime.getYear() + "," + "Time:" + dateNtime.getHour() + ":" + dateNtime.getMinute(), accountHolder);
+                                r.setVisible(true);
+                                dispose();
                             } else {
-                                try {
-                                    CurrentAccountHolder cah = CurrentAccountHolder.getAccountHolderObject(accountHolder.getId());
-                                    Transaction t = new Transaction(cah);
-                                    LocalDateTime dateNtime = LocalDateTime.now();
-                                    t.deposit(amount,false);
-                                    JOptionPane.showMessageDialog(null, amount + " PKR Successfully Deposited");
-                                    Receipt r = new Receipt(amount, "Deposit", "Date:" + dateNtime.getDayOfMonth() + "/" + dateNtime.getMonth() + "/" + dateNtime.getYear() + "," + "Time:" + dateNtime.getHour() + ":" + dateNtime.getMinute(), accountHolder);
-                                    r.setVisible(true);
-                                    dispose();
-                                } catch (IOException e1) {
-                                }
+                                JOptionPane.showMessageDialog(null, "Deposit failed. Please try again.");
                             }
                         } catch (Exception ex) {
-                            throw new RuntimeException(ex);
+                            ex.printStackTrace();
+                            JOptionPane.showMessageDialog(null, "Error during deposit: " + ex.getMessage());
                         }
                     } else {
                         JOptionPane.showMessageDialog(null, "Enter Amount greater than 0 PKR");
@@ -107,36 +93,23 @@ public class DepositDashboard extends JFrame {  // by hateem
                         String accNum=accNumTF.getText();
                         try {
                             if(AccountHolder.checkAccountHolder(accNum)) {
-                                String[] accHolderDetails=AccountHolder.getAccountHolderdetails(accNum);
-                                if (accHolderDetails[8].equalsIgnoreCase("Savings")) {
-                                    try {
-                                        SavingsAccountHolder sah = SavingsAccountHolder.getAccountHolderObject(accHolderDetails[0]);
-                                        Transaction t = new Transaction(sah);
-                                        System.out.println(sah.getName());
-                                        LocalDateTime dateNtime = LocalDateTime.now();
-                                        t.deposit(amount, true);
-                                        JOptionPane.showMessageDialog(null, amount + " PKR Successfully Deposited into Customer Account");
-                                    } catch (IOException e1) {
-                                    }
+                                LocalDateTime dateNtime = LocalDateTime.now();
+                                boolean success = TransactionDAO.deposit(accNum, amount, true);
+                                if (success) {
+                                    JOptionPane.showMessageDialog(null, amount + " PKR Successfully Deposited into Customer Account");
+                                    AdminDashboard ad = new AdminDashboard(admin);
+                                    ad.setVisible(true);
+                                    dispose();
                                 } else {
-                                    try {
-                                        CurrentAccountHolder cah = CurrentAccountHolder.getAccountHolderObject(accHolderDetails[0]);
-                                        Transaction t = new Transaction(cah);
-                                        LocalDateTime dateNtime = LocalDateTime.now();
-                                        t.deposit(amount, true);
-                                        JOptionPane.showMessageDialog(null, amount + " PKR Successfully Deposited");
-                                    } catch (IOException e1) {
-                                    }
+                                    JOptionPane.showMessageDialog(null, "Deposit failed. Please try again.");
                                 }
-                                AdminDashboard ad = new AdminDashboard(admin);
-                                ad.setVisible(true);
-                                dispose();
                             }
                             else{
                                 JOptionPane.showMessageDialog(null, "Account Holder not found");
                             }
                         } catch (Exception ex) {
-                            throw new RuntimeException(ex);
+                            ex.printStackTrace();
+                            JOptionPane.showMessageDialog(null, "Error during deposit: " + ex.getMessage());
                         }
                     } else {
                         JOptionPane.showMessageDialog(null, "Enter Amount greater than 0 PKR");

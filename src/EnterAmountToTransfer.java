@@ -35,49 +35,33 @@ public class EnterAmountToTransfer extends JFrame { // by hateem
                     if (Transaction.checkAmount(amountTF.getText())) {
                         double amount = Double.parseDouble(amountTF.getText());
                         try {
-                            if (accountHolder.getAccountType().equalsIgnoreCase("Savings")) {
-                                try {
-                                    SavingsAccountHolder sah = SavingsAccountHolder.getAccountHolderObject(accountHolder.getId());
-                                    Transaction t = new Transaction(sah);
-                                    LocalDateTime dateNtime = LocalDateTime.now();
-                                    if (amount <= sah.balance) {
-                                        if (t.transfer(amount, receiverAccNum, bankName,receiverName)) {
-                                            JOptionPane.showMessageDialog(null, "Money Transfer Successful");
-                                            Receipt r = new Receipt(AccountHolder.getAccountHolderdetails(receiverAccNum)[1], amount, "Transfer", "Date:" + dateNtime.getDayOfMonth() + "/" + dateNtime.getMonth() + "/" + dateNtime.getYear() + "," + "Time:" + dateNtime.getHour() + ":" + dateNtime.getMinute(), accountHolder);
-                                            r.setVisible(true);
-                                            dispose();
-                                        } else {
-                                            JOptionPane.showMessageDialog(null, "Receiver account not found");
-                                        }
-                                    } else {
-                                        JOptionPane.showMessageDialog(null, "Money Not Enough");
-                                    }
-                                } catch (IOException ex) {
-                                    throw new RuntimeException(ex);
+                            if (amount <= accountHolder.getBalance()) {
+                                LocalDateTime dateNtime = LocalDateTime.now();
+                                boolean success = TransactionDAO.transfer(
+                                    accountHolder.getAccountNumber(),
+                                    receiverAccNum,
+                                    bankName,
+                                    amount,
+                                    receiverName
+                                );
+
+                                if (success) {
+                                    JOptionPane.showMessageDialog(null, "Money Transfer Successful");
+                                    Receipt r = new Receipt(receiverName, amount, "Transfer",
+                                        "Date:" + dateNtime.getDayOfMonth() + "/" + dateNtime.getMonth() + "/" +
+                                        dateNtime.getYear() + "," + "Time:" + dateNtime.getHour() + ":" +
+                                        dateNtime.getMinute(), accountHolder);
+                                    r.setVisible(true);
+                                    dispose();
+                                } else {
+                                    JOptionPane.showMessageDialog(null, "Transfer failed. Please check receiver account or balance.");
                                 }
                             } else {
-                                try {
-                                    CurrentAccountHolder cah = CurrentAccountHolder.getAccountHolderObject(accountHolder.getId());
-                                    Transaction t = new Transaction(cah);
-                                    LocalDateTime dateNtime = LocalDateTime.now();
-                                    if (amount <= cah.balance) {
-                                        if (t.transfer(amount, receiverAccNum, bankName,receiverName)) {
-                                            JOptionPane.showMessageDialog(null, "Money Transfer Successful");
-                                            Receipt r = new Receipt(receiverName, amount, "Transfer", "Date:" + dateNtime.getDayOfMonth() + "/" + dateNtime.getMonth() + "/" + dateNtime.getYear() + "," + "Time:" + dateNtime.getHour() + ":" + dateNtime.getMinute(), accountHolder);
-                                            r.setVisible(true);
-                                            dispose();
-                                        } else {
-                                            JOptionPane.showMessageDialog(null, "Receiver account not found");
-                                        }
-                                    } else {
-                                        JOptionPane.showMessageDialog(null, "Money Not Enough");
-                                    }
-                                } catch (IOException ex) {
-                                    throw new RuntimeException(ex);
-                                }
+                                JOptionPane.showMessageDialog(null, "Insufficient Funds");
                             }
                         } catch (Exception ex) {
-                            throw new RuntimeException(ex);
+                            ex.printStackTrace();
+                            JOptionPane.showMessageDialog(null, "Error during transfer: " + ex.getMessage());
                         }
                     } else {
                         JOptionPane.showMessageDialog(null, "Enter Valid Amount (greater than 0 and less than your balance)");

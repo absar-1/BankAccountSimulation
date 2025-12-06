@@ -35,18 +35,9 @@ public class Receipt extends JFrame {
         exitButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {
-                    if(accountHolder.getAccountType().equalsIgnoreCase("Savings")) {
-                        AccountHolder sah=SavingsAccountHolder.getAccountHolderObject(accountHolder.getId());
-                        MainDashboard mainDashboard = new MainDashboard(sah);
-                        mainDashboard.setVisible(true);
-                        dispose();
-                    }
-                    else{
-                        AccountHolder cah=CurrentAccountHolder.getAccountHolderObject(accountHolder.getId());
-                        MainDashboard mainDashboard = new MainDashboard(cah);
-                        mainDashboard.setVisible(true);
-                        dispose();
-                    }
+                    MainDashboard mainDashboard = new MainDashboard(accountHolder);
+                    mainDashboard.setVisible(true);
+                    dispose();
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -72,18 +63,9 @@ public class Receipt extends JFrame {
         exitButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {
-                    if(accountHolder.getAccountType().equalsIgnoreCase("Savings")) {
-                        AccountHolder sah=SavingsAccountHolder.getAccountHolderObject(accountHolder.getId());
-                        MainDashboard mainDashboard = new MainDashboard(sah);
-                        mainDashboard.setVisible(true);
-                        dispose();
-                    }
-                    else{
-                        AccountHolder cah=CurrentAccountHolder.getAccountHolderObject(accountHolder.getId());
-                        MainDashboard mainDashboard = new MainDashboard(cah);
-                        mainDashboard.setVisible(true);
-                        dispose();
-                    }
+                    MainDashboard mainDashboard = new MainDashboard(accountHolder);
+                    mainDashboard.setVisible(true);
+                    dispose();
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
