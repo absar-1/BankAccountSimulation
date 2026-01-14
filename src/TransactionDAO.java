@@ -7,7 +7,6 @@ public class TransactionDAO {
 
     public static String insertTransactionRecord(Connection conn, String accountId, String description, double amount, String transactionType) throws SQLException {
         // Step 1: Insert row with a temporary transaction_id, then update it based on the generated id
-        // We use a two-step approach to ensure the id from IDENTITY is used
 
         // Insert with temporary placeholder transaction_id
         String insertSql = "INSERT INTO Transactions (account_id, transaction_id, description, amount, transaction_type, transaction_date, transaction_time) " +
@@ -60,13 +59,13 @@ public class TransactionDAO {
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     String[] row = new String[7];
-                    row[0] = rs.getString(1);  // account_id
-                    row[1] = rs.getString(2);  // transaction_id
-                    row[2] = rs.getString(3);  // description
-                    row[3] = String.valueOf(rs.getDouble(4));  // amount
-                    row[4] = rs.getString(5);  // transaction_type
-                    row[5] = rs.getString(6);  // tdate
-                    row[6] = rs.getString(7);  // ttime
+                    row[0] = rs.getString(1);
+                    row[1] = rs.getString(2);
+                    row[2] = rs.getString(3);
+                    row[3] = String.valueOf(rs.getDouble(4));
+                    row[4] = rs.getString(5);
+                    row[5] = rs.getString(6);
+                    row[6] = rs.getString(7);
                     result.add(row);
                 }
             }

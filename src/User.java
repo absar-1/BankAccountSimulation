@@ -367,13 +367,16 @@ abstract class AccountHolder extends User {
         return true;
     }
     public ArrayList<String> viewLoanOptions() throws IOException {
-        BufferedReader br=new BufferedReader(new FileReader("src/Loan Options.txt"));
-        String line;
+        // Get loan options from database
+        String[][] options = LoanOptionsDAO.getAllLoanOptions();
         ArrayList<String> lines = new ArrayList<>();
-        while((line=br.readLine())!=null){
-            String[] details = line.split(",");
-            lines.add(details[2]+","+details[3]+","+details[4]+","+details[5]);
+
+        for (String[] opt : options) {
+            // Format: loan_amount, minimum_balance, duration_months, interest_percentage
+            // Index: 0=id, 1=package_name, 2=loan_amount, 3=minimum_balance, 4=duration, 5=interest
+            lines.add(opt[2] + "," + opt[3] + "," + opt[4] + "," + opt[5]);
         }
+
         return lines;
     }
     public ArrayList<String> getBeneficiaries() throws IOException {

@@ -5,7 +5,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class ViewLoanRequests extends JFrame {
     private JPanel header;
@@ -48,9 +47,8 @@ public class ViewLoanRequests extends JFrame {
         tableModel.addColumn("");
         tableModel.addColumn("");
 
-        ArrayList<String> reqs = Requests.getLoanRequests();
-        for (String req : reqs) {
-            String[] parts = req.split(",");
+        String[][] reqs = LoanRequestDAO.getAllRequests();
+        for (String[] parts : reqs) {
             tableModel.addRow(new Object[]{
                     parts[0], parts[1], parts[2], parts[3], parts[4], "Accept", "Reject"
             });

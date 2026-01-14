@@ -1,5 +1,5 @@
-/*
-CREATE TABLE Admins (
+-- Parent: Admins
+CREATE TABLE dbo.Admins (
     id NVARCHAR(50) PRIMARY KEY,
     admin_name NVARCHAR(100) NOT NULL,
     age INT NOT NULL,
@@ -10,35 +10,46 @@ CREATE TABLE Admins (
     contact NVARCHAR(20) NOT NULL,
     email NVARCHAR(100) NOT NULL
 );
-*/
 
-/*
-CREATE TABLE AccountHolders (
+-- Parent: Accounts
+CREATE TABLE dbo.Accounts (
     id NVARCHAR(50) PRIMARY KEY,
-    account_holder_name NVARCHAR(100) NOT NULL,
     balance DECIMAL(18,2) DEFAULT 0,
-    age INT,
-    gender NVARCHAR(10),
     username NVARCHAR(50) UNIQUE NOT NULL,
     password NVARCHAR(300) NOT NULL,
     account_number NVARCHAR(50) UNIQUE NOT NULL,
-    account_type NVARCHAR(20) NOT NULL,
-    address NVARCHAR(300),
-    contact NVARCHAR(50) NOT NULL,
-    cnic NVARCHAR(50) NOT NULL,
-    email NVARCHAR(100) NOT NULL
+    account_type NVARCHAR(20) NOT NULL
 );
-*/
 
-/*
-CREATE TABLE Banks (
+-- Parent: Customers
+CREATE TABLE dbo.Customers (
+    customer_id INT IDENTITY(1,1) PRIMARY KEY,
+    customer_name NVARCHAR(50),
+    age INT,
+    gender NVARCHAR(20),
+    address NVARCHAR(200),
+    contact NVARCHAR(50),
+    cnic NVARCHAR(100),
+    email NVARCHAR(100)
+);
+
+-- Junction: CustomerAccounts (references Accounts and Customers)
+CREATE TABLE dbo.CustomerAccounts (
+    id NVARCHAR(50) NOT NULL,
+    customer_id INT NOT NULL,
+    CONSTRAINT PK_CustomerAccounts PRIMARY KEY (id, customer_id),
+    CONSTRAINT FK_CustomerAccounts_Accounts FOREIGN KEY (id) REFERENCES dbo.Accounts(id),
+    CONSTRAINT FK_CustomerAccounts_Customers FOREIGN KEY (customer_id) REFERENCES dbo.Customers(customer_id)
+);
+
+-- Parent: Banks
+CREATE TABLE dbo.Banks (
     id INT IDENTITY(1,1) PRIMARY KEY,
     bank_name NVARCHAR(100) UNIQUE NOT NULL
 );
-*/
 
-/*
-CREATE TABLE Transactions (
+-- Transactions (child -> Accounts(id))
+CREATE TABLE dbo.Transactions (
     id INT IDENTITY(1,1) PRIMARY KEY,
     account_id NVARCHAR(50) NOT NULL,
     transaction_id NVARCHAR(50) UNIQUE NOT NULL,
@@ -47,23 +58,21 @@ CREATE TABLE Transactions (
     transaction_type NVARCHAR(50) NOT NULL,
     transaction_date DATE NOT NULL,
     transaction_time TIME NOT NULL,
-    FOREIGN KEY (account_id) REFERENCES AccountHolders(id)
+    CONSTRAINT FK_Transactions_Accounts FOREIGN KEY (account_id) REFERENCES dbo.Accounts(id)
 );
-*/
 
-/*
-CREATE TABLE Beneficiaries (
+-- Beneficiaries (child -> Accounts(id))
+CREATE TABLE dbo.Beneficiaries (
     id INT IDENTITY(1,1) PRIMARY KEY,
     account_id NVARCHAR(50) NOT NULL,
     beneficiary_account_number NVARCHAR(20) NOT NULL,
     beneficiary_name NVARCHAR(100),
     beneficiary_bank_name NVARCHAR(100),
-    FOREIGN KEY (account_id) REFERENCES AccountHolders(id)
+    CONSTRAINT FK_Beneficiaries_Accounts FOREIGN KEY (account_id) REFERENCES dbo.Accounts(id)
 );
-*/
 
-/*
-CREATE TABLE Cards (
+-- Cards (child -> Accounts(account_number))
+CREATE TABLE dbo.Cards (
     id INT IDENTITY(1,1) PRIMARY KEY,
     account_number NVARCHAR(50) NOT NULL,
     card_holder_name NVARCHAR(100),
@@ -71,25 +80,33 @@ CREATE TABLE Cards (
     cvv NVARCHAR(5),
     expiry_date NVARCHAR(10),
     card_type NVARCHAR(10),
-    FOREIGN KEY (account_number) REFERENCES AccountHolders(account_number)
+    CONSTRAINT FK_Cards_Accounts_account_number FOREIGN KEY (account_number) REFERENCES dbo.Accounts(account_number)
 );
-*/
 
-/*
-CREATE TABLE LoanRequests (
+-- LoanRequests (child -> Accounts(id))
+CREATE TABLE dbo.LoanRequests (
     id INT IDENTITY(1,1) PRIMARY KEY,
     account_id NVARCHAR(50) NOT NULL,
     account_holder_name NVARCHAR(100),
     loan_type NVARCHAR(50),
     loan_amount DECIMAL(18,2),
     status NVARCHAR(20) DEFAULT 'Pending',
-    FOREIGN KEY (account_id) REFERENCES AccountHolders(id)
+    CONSTRAINT FK_LoanRequests_Accounts FOREIGN KEY (account_id) REFERENCES dbo.Accounts(id)
 );
-*/
 
-/*
-CREATE TABLE AccountRequests (
-     id INT IDENTITY(1,1) PRIMARY KEY,
+-- LoanOptions (independent)
+CREATE TABLE dbo.LoanOptions (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    package_name NVARCHAR(50) UNIQUE NOT NULL,
+    loan_amount DECIMAL(18,2) NOT NULL,
+    minimum_balance DECIMAL(18,2) NOT NULL,
+    duration_months INT NOT NULL,
+    interest_percentage DECIMAL(5,2) NOT NULL
+);
+
+-- AccountRequests (independent)
+CREATE TABLE dbo.AccountRequests (
+    id INT IDENTITY(1,1) PRIMARY KEY,
     name NVARCHAR(100),
     age INT,
     gender NVARCHAR(10),
@@ -101,22 +118,19 @@ CREATE TABLE AccountRequests (
     status NVARCHAR(20) DEFAULT 'Unanswered',
     request_date DATE DEFAULT GETDATE()
 );
-*/
 
-/*
-CREATE TABLE Feedback (
+-- Feedback (child -> Accounts(id))
+CREATE TABLE dbo.Feedback (
     id INT IDENTITY(1,1) PRIMARY KEY,
     account_id NVARCHAR(50),
     category_type NVARCHAR(50),
     content NVARCHAR(MAX),
-    FOREIGN KEY (account_id) REFERENCES AccountHolders(id)
+    CONSTRAINT FK_Feedback_Accounts FOREIGN KEY (account_id) REFERENCES dbo.Accounts(id)
 );
-*/
 
-/*
-CREATE TABLE OtherBankAccountHolders (
+-- OtherBankAccountHolders (independent)
+CREATE TABLE dbo.OtherBankAccountHolders (
     id INT IDENTITY(1,1) PRIMARY KEY,
     bank_name NVARCHAR(100),
     account_number NVARCHAR(50)
 );
-*/
