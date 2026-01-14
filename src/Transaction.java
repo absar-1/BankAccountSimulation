@@ -1,9 +1,6 @@
 import java.io.*;
-import java.lang.reflect.Array;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 
 
 class Transaction implements Identifiable {
@@ -159,8 +156,8 @@ class Transaction implements Identifiable {
     public boolean transfer(double amount, String receiverAccNum, String bankName,String receiverName) throws IOException {
          File input = new File("src/Account_Holders.txt");
          if (bankName.equalsIgnoreCase("Scam Bank Limited")) {
-             if (AccountHolder.checkAccountHolder(receiverAccNum)) {
-                 String[] receiverDetails = AccountHolder.getAccountHolderdetails(receiverAccNum);
+             if (AccountHolder.checkAccount(receiverAccNum)) {
+                 String[] receiverDetails = AccountHolder.getAccountdetails(receiverAccNum);
                  BufferedReader br = new BufferedReader(new FileReader(input));
                  ArrayList<String> lines=new ArrayList<>();
                  String line;

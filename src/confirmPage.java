@@ -66,7 +66,7 @@ public class confirmPage extends JFrame { // by hateem
         }
         else {
             try {
-                SavingsAccountHolder sah = SavingsAccountHolder.getAccountHolderObject(accountHolder.getId());
+                SavingsAccountHolder sah = SavingsAccountHolder.getAccountObject(accountHolder.getId());
                 double interestAmount = sah.getInterestAmount();
                 questionLabel.setText("You'll get total interest " +interestAmount+" PKR. Are you sure you want to deposit it into account ?");
                 setTitle("Confirm Interest Deposit");
@@ -115,11 +115,11 @@ public class confirmPage extends JFrame { // by hateem
         setTitle("Account Holder Removal Confirmation");
         String accType=AccountHolder.getAccountType(ID);
         if(accType.equalsIgnoreCase("Savings")) {
-            questionLabel.setText("Are you sure you want to remove Account Holder : " +SavingsAccountHolder.getAccountHolderObject(ID).getName());
+            questionLabel.setText("Are you sure you want to remove Account Holder : " +SavingsAccountHolder.getAccountObject(ID).getName());
             yesButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     try {
-                        if (a.removeCustomer(ID)) {
+                        if (a.removeAccount(ID)) {
                             JOptionPane.showMessageDialog(null, "Customer Removed Successfully");
                             AdminDashboard AdminDashboard = new AdminDashboard(a);
                             AdminDashboard.setVisible(true);
@@ -148,7 +148,7 @@ public class confirmPage extends JFrame { // by hateem
             yesButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     try {
-                        if (a.removeCustomer(ID)) {
+                        if (a.removeAccount(ID)) {
                             JOptionPane.showMessageDialog(null, "Customer Removed Successfully");
                             AdminDashboard AdminDashboard = new AdminDashboard(a);
                             AdminDashboard.setVisible(true);

@@ -50,7 +50,7 @@ public class EnterUsername_Pass extends JFrame {  // by hateem
                     }
                 } else {
                     try {
-                        String[] accHolderDetails = AccountHolder.loginAndgetAccountHolderdetails(username, password);
+                        String[] accHolderDetails = AccountHolder.loginAndgetAccountDetails(username, password);
                         if (accHolderDetails != null) {
                             if (accHolderDetails[6].equalsIgnoreCase("Savings")) {
                                 SavingsAccountHolder sah=new SavingsAccountHolder(accHolderDetails[0],accHolderDetails[1],Double.parseDouble(accHolderDetails[2]),accHolderDetails[3],accHolderDetails[4],accHolderDetails[5],accHolderDetails[6],accHolderDetails[7],accHolderDetails[8],accHolderDetails[9],accHolderDetails[10],accHolderDetails[11],accHolderDetails[12]);

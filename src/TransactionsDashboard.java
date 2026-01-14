@@ -38,7 +38,7 @@ public class TransactionsDashboard extends JFrame {
 
         Transaction t;
         if(accountHolder.getAccountType().equalsIgnoreCase("Savings")){
-            AccountHolder sah=SavingsAccountHolder.getAccountHolderObject(accountHolder.getId());
+            AccountHolder sah=SavingsAccountHolder.getAccountObject(accountHolder.getId());
             t=new Transaction(sah);
         }
         else{
@@ -108,7 +108,7 @@ public class TransactionsDashboard extends JFrame {
 
         Transaction t;
         if(accountHolder.getAccountType().equalsIgnoreCase("Savings")){
-            AccountHolder sah=SavingsAccountHolder.getAccountHolderObject(accountHolder.getId());
+            AccountHolder sah=SavingsAccountHolder.getAccountObject(accountHolder.getId());
             t=new Transaction(sah);
         }
         else{

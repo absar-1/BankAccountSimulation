@@ -40,8 +40,8 @@ public class MainDashboard extends JFrame {
         menuComboBox.addItem("      Menu");
         menuComboBox.addItem("      Change Password");
 //        menuComboBox.addItem("      Change Username");
-        menuComboBox.addItem("      Change Email");
-        menuComboBox.addItem("      Change Address");
+//        menuComboBox.addItem("      Change Email");
+//        menuComboBox.addItem("      Change Address");
         menuComboBox.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String selected = (String) menuComboBox.getSelectedItem();
@@ -55,16 +55,16 @@ public class MainDashboard extends JFrame {
 //                    changeByAccountHolder.setVisible(true);
 //                    dispose();
 //                }
-                else if ("      Change Email".equals(selected)) {
-                    ChangeByAccountHolder changeByAccountHolder=new ChangeByAccountHolder(accountHolder,"Change Email");
-                    changeByAccountHolder.setVisible(true);
-                    dispose();
-                }
-                else if ("      Change Address".equals(selected)) {
-                    ChangeByAccountHolder changeByAccountHolder=new ChangeByAccountHolder(accountHolder,"Change Address");
-                    changeByAccountHolder.setVisible(true);
-                    dispose();
-                }
+//                else if ("      Change Email".equals(selected)) {
+//                    ChangeByAccountHolder changeByAccountHolder=new ChangeByAccountHolder(accountHolder,"Change Email");
+//                    changeByAccountHolder.setVisible(true);
+//                    dispose();
+//                }
+//                else if ("      Change Address".equals(selected)) {
+//                    ChangeByAccountHolder changeByAccountHolder=new ChangeByAccountHolder(accountHolder,"Change Address");
+//                    changeByAccountHolder.setVisible(true);
+//                    dispose();
+//                }
             }
         });
         if(accountHolder.getAccountType().equalsIgnoreCase("Savings")){getInterest.setVisible(true);}

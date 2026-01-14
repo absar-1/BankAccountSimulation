@@ -48,7 +48,7 @@ public class ViewCustomers extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 String customeraccNum = accNumTF.getText();
                 try {
-                    if(AccountHolder.checkAccountHolder(customeraccNum)) {
+                    if(AccountHolder.checkAccount(customeraccNum)) {
                         ShowCustomerrDetails showDetails=new ShowCustomerrDetails(a,customeraccNum);
                         showDetails.setVisible(true);
                         dispose();

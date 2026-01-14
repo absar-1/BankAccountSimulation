@@ -1,5 +1,4 @@
 import javax.swing.*;
-import javax.swing.text.View;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -34,7 +33,7 @@ public class ShowCustomerrDetails extends JFrame {
         Image icon = Toolkit.getDefaultToolkit().getImage("src/Images/SBL (1).png");
         setIconImage(icon);
         admintextfield.setText(a.getName());
-        String[] accountHolderdetails=AccountHolder.getAccountHolderdetails(customerAccNum);
+        String[] accountHolderdetails=AccountHolder.getAccountdetails(customerAccNum);
         nameTF.setText(accountHolderdetails[1]);
         balanceTF.setText(accountHolderdetails[2]);
         ageTF.setText(accountHolderdetails[3]);

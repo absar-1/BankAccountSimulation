@@ -27,10 +27,10 @@ public class ViewAccHolderStatement extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 String customeraccNum = accNumTF.getText();
                 try {
-                    if(AccountHolder.checkAccountHolder(customeraccNum)) {
-                        String[] accHolderDetails=AccountHolder.getAccountHolderdetails(customeraccNum);
+                    if(AccountHolder.checkAccount(customeraccNum)) {
+                        String[] accHolderDetails=AccountHolder.getAccountdetails(customeraccNum);
                         if(accHolderDetails[8].equalsIgnoreCase("Savings")){
-                            TransactionsDashboard td=new TransactionsDashboard(SavingsAccountHolder.getAccountHolderObject(accHolderDetails[0]),a);
+                            TransactionsDashboard td=new TransactionsDashboard(SavingsAccountHolder.getAccountObject(accHolderDetails[0]),a);
                             td.setVisible(true);
                             dispose();
                         }

@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
-public class OpenAccount extends JFrame {
+public class OpenIndividualAccount extends JFrame {
     private JPanel openAcc;
     private JComboBox acctypCombobox;
     private JTextField nameTF;
@@ -20,7 +20,7 @@ public class OpenAccount extends JFrame {
     private JTextField admintextfield;
     private JLabel adminNameLabel;
 
-    public OpenAccount(Admin a) {
+    public OpenIndividualAccount(Admin a) {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         setSize(screenSize.width, screenSize.height-60);
         setContentPane(openAcc);
@@ -127,7 +127,7 @@ public class OpenAccount extends JFrame {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             try {
-                new OpenAccount(new Admin("ADM001", "Hateem Khan", "30", "Male", "admin_hateem", "Admin@123", "42101-9876543-2", "0300-1234567", "admin@example.com")).setVisible(true);
+                new OpenIndividualAccount(new Admin("ADM001", "Hateem Khan", "30", "Male", "admin_hateem", "Admin@123", "42101-9876543-2", "0300-1234567", "admin@example.com")).setVisible(true);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

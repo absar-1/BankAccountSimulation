@@ -58,8 +58,8 @@ public class AdminDashboard extends JFrame { // by hateem
         });
         openAccButton.addActionListener(new ActionListener() {
            public void actionPerformed(ActionEvent e) {
-               OpenAccount oa=new OpenAccount(a);
-               oa.setVisible(true);
+               AccSelection ac=new AccSelection(a);
+               ac.setVisible(true);
                dispose();
            }
         });

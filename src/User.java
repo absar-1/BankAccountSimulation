@@ -1,8 +1,6 @@
 import java.io.*;
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -68,34 +66,8 @@ class Admin extends User {
     public boolean removeAdmin(String ID) throws IOException {
         return AdminDAO.removeAdmin(ID);
     }
-    public boolean removeCustomer(String ID) throws IOException {
-        File inputFile = new File("src/Account_Holders.txt");
-        boolean removed = false;
-        ArrayList<String> lines=new ArrayList<>();
-        try (BufferedReader br = new BufferedReader(new FileReader(inputFile));){
-            String line;
-            while ((line = br.readLine()) != null) {
-                String[] details = line.split(",");
-                if (!details[0].equals(ID)) {
-                    lines.add(line);
-                }
-                else {
-                    removed = true;
-                }
-            }
-        }
-        catch (IOException e) {
-            return false;
-        }
-        if (removed) {
-            BufferedWriter bw=new BufferedWriter(new FileWriter("src/Account_Holders.txt"));
-            for (int i = 0; i < lines.size(); i++) {
-                bw.write(lines.get(i));
-                bw.newLine();
-            }
-            bw.close();
-        }
-        return removed;
+    public boolean removeAccount(String ID) throws IOException {
+        return AdminDAO.removeAccount(ID);
     }
     public boolean addBank(String bankName){
         return AdminDAO.addBank(bankName);
@@ -206,7 +178,6 @@ class Admin extends User {
 
 abstract class AccountHolder extends User {
     protected double balance;
-    protected static int assignId = 0;
     protected String accountNumber;
     protected String accountType;
     protected String address;
@@ -214,7 +185,10 @@ abstract class AccountHolder extends User {
     final File AccountHolderFile = new File("src/Account_Holders.txt");
 
     protected AccountHolder(String name, String age, String gender,String accType, String address, String contact, String cnic, String email){ // used when admin opens account
-        AdminDAO.addAccountHolder(name,age,gender,accType,address,contact,cnic,email);
+        AdminDAO.addIndAcc(name,age,gender,accType,address,contact,cnic,email);
+    }
+    protected AccountHolder(String name1, String age1, String gender1, String address1, String contact1, String cnic1, String email1,String name2, String age2, String gender2, String address2, String contact2, String cnic2, String email2,String accType,String accTitle){ // used when admin opens account
+        AdminDAO.addJointAcc(name1,age1,gender1,address1,contact1,cnic1,email1,name2,age2,gender2,address2,contact2,cnic2,email2,accType,accTitle);
     }
 
 //    public AccountHolder(String name, String age, String gender, String accType, String address, String contact, String cnic, String email) throws IOException { // used when request accepted
@@ -285,71 +259,9 @@ abstract class AccountHolder extends User {
 
     public String getAccountType() throws IOException {
         return this.accountType;
-    }public boolean addBeneficiary(String beneficiaryAccNum, String beneficiaryName, String beneficiaryBankName) throws IOException {
-        String line;
-        boolean accHolderExist = false;
-        System.out.println("bname "+beneficiaryName);
-        System.out.println("banKname "+ beneficiaryBankName);
-        System.out.println("bAcc "+beneficiaryAccNum);
-        if (beneficiaryBankName.equalsIgnoreCase("Scam Bank Limited")) {
-            File accountHolderFile = new File("src/Account_Holders.txt");
-            BufferedReader br1 = new BufferedReader(new FileReader(accountHolderFile));
-            while ((line = br1.readLine()) != null) {
-                String[] details = line.split(",");
-                if (details[7].equals(beneficiaryAccNum)) {
-                    accHolderExist = true;
-                    break;
-                }
-            }
-            br1.close();
-        } else {
-            File otherBankAccountHolderFile = new File("src/Other_Banks_Account_Holders.txt");
-            BufferedReader br1 = new BufferedReader(new FileReader(otherBankAccountHolderFile));
-            while ((line = br1.readLine()) != null) {
-                String[] details = line.split(",");
-                if (details[2].equals(beneficiaryAccNum) && details[1].equalsIgnoreCase(beneficiaryBankName)) {
-                    accHolderExist = true;
-                    break;
-                }
-            }
-            br1.close();
-        }
-        if (accHolderExist) {
-            File beneficiaryFile = new File("src/Beneficiaries.txt");
-            BufferedReader br = new BufferedReader(new FileReader(beneficiaryFile));
-            ArrayList<String> lines = new ArrayList<>();
-            boolean accHolderFound = false;
-            while ((line = br.readLine()) != null) {
-                String[] details = line.split(",");
-                if (details[0].equals(this.id)) {
-                    for (int i = 1; i < details.length; i++) {
-                        String[] beneficiaryDetails=details[i].split("/");
-                        if(beneficiaryDetails[0].equalsIgnoreCase(beneficiaryAccNum)){
-                            return false;
-                        }
-                    }
-                    String newLine = line + "," + beneficiaryAccNum + "/" + beneficiaryName + "/" + beneficiaryBankName;
-                    accHolderFound = true;
-                    lines.add(newLine);
-                } else {
-                    lines.add(line);
-                }
-            }
-            br.close();
-            if (!accHolderFound) {
-                String newLine =this.id+","+ beneficiaryAccNum + "/" + beneficiaryName + "/" + beneficiaryBankName;
-                lines.add(newLine);
-            }
-            BufferedWriter bw = new BufferedWriter(new FileWriter(beneficiaryFile));
-            for (int i = 0; i < lines.size(); i++) {
-                bw.write(lines.get(i));
-                bw.newLine();
-            }
-            bw.close();
-            return true;
-        } else {
-            return false;
-        }
+    }
+    public boolean addBeneficiary(String beneficiaryAccNum, String beneficiaryName, String beneficiaryBankName) throws IOException {
+        return AccountHolderDAO.addBeneficiary(this.id,beneficiaryAccNum,beneficiaryName,beneficiaryBankName);
     }
     public boolean submitFeedback_Queries_Suggestions(String categoryType,String text) throws IOException {
         int idAssign=0;
@@ -380,59 +292,18 @@ abstract class AccountHolder extends User {
         return lines;
     }
     public ArrayList<String> getBeneficiaries() throws IOException {
-        ArrayList<String> beneficiaries = new ArrayList<>();
-        File beneficiaryFile = new File("src/Beneficiaries.txt");
-        BufferedReader br = new BufferedReader(new FileReader(beneficiaryFile));
-        String line;
-
-        while ((line = br.readLine()) != null) {
-            String[] parts = line.split(",", 2);
-            if (parts[0].equals(this.id)) {
-                if (parts.length > 1) {
-                    String beneficiariesStr = parts[1];
-                    String[] beneficiaryDetails = beneficiariesStr.split(",");
-
-                    for (String b : beneficiaryDetails) {
-                        beneficiaries.add(b);
-                    }
-                }
-                break;
-            }
-        }
-        br.close();
-
-        return beneficiaries;
+       return AccountHolderDAO.getBeneficiaries(this.id);
     }
     public static String getAccountType(String id) throws IOException {
-        BufferedReader br = new BufferedReader(new FileReader("src/Account_Holders.txt"));
-        String line;
-        while((line=br.readLine())!=null){
-            String[] details=line.split(",");
-            if(details[0].equalsIgnoreCase(id)){
-                return details[8];
-            }
-        }
-        br.close();
-        return null;
+        return AccountHolderDAO.getAccountType(id);
     }
-    public static String[] loginAndgetAccountHolderdetails(String username, String password) throws IOException {
+    public static String[] loginAndgetAccountDetails(String username, String password) throws IOException {
 
-       String[] result=AccountHolderDAO.loginAndgetAccountHolderdetails(username,password);
-        System.out.println(Arrays.toString(result));
+       String[] result=AccountHolderDAO.loginAndgetAccountDetails(username,password);
        return result;
     }
-    public static String[] getAccountHolderdetails(String accountNumber) throws IOException {
-        try (BufferedReader br = new BufferedReader(new FileReader("src/Account_Holders.txt"))) {
-            String newline;
-            while ((newline = br.readLine()) != null) {
-                String[] details = newline.split(",");
-                if (accountNumber.equalsIgnoreCase(details[7])) {
-                    br.close();
-                    return details;
-                }
-            }
-        }
-        return null;
+    public static String[] getAccountdetails(String accountNumber) throws IOException {
+        return AccountHolderDAO.getAccountDetailsByAccountNumber(accountNumber);
     }
 
     public double getBalance(){
@@ -448,18 +319,8 @@ abstract class AccountHolder extends User {
         return this.email;
     }
 
-    public static boolean checkAccountHolder(String accountNumber) throws IOException {
-        try (BufferedReader br = new BufferedReader(new FileReader("src/Account_Holders.txt"))) {
-            String newline;
-            while ((newline = br.readLine()) != null) {
-                String[] details = newline.split(",");
-                if (accountNumber.equalsIgnoreCase(details[7])) {
-                    br.close();
-                    return true;
-                }
-            }
-        }
-        return false;
+    public static boolean checkAccount(String accountNumber) throws IOException {
+        return AccountHolderDAO.checkAccount(accountNumber);
     }
     public ArrayList<String> getCardDetails() throws IOException {
         BufferedReader br=new BufferedReader(new FileReader("src/Cards.txt"));
@@ -474,42 +335,10 @@ abstract class AccountHolder extends User {
     }
 
     public boolean change(String accountNumber, String newDetail,int indexToChange) throws IOException {
-        BufferedReader br=new BufferedReader(new FileReader(AccountHolderFile));
-        ArrayList<String> lines=new ArrayList<>();
-        boolean changed=false;
-        String newline;
-        while((newline= br.readLine())!=null){
-            String[] details = newline.split(",");
-            if(details[7].equals(accountNumber)){
-                details[indexToChange]=newDetail;
-                lines.add(String.join(",",details));
-                changed=true;
-                if(indexToChange==5){
-                    this.username=newDetail;
-                } else if (indexToChange==6) {
-                    this.password=newDetail;
-                }
-                else if(indexToChange==9){
-                    this.address=newDetail;
-                }
-                else if(indexToChange==12){
-                    this.email=newDetail;
-                }
-            }
-            else{
-                lines.add(newline);
-            }
+        if (indexToChange==6) {
+            return AccountHolderDAO.updatePassword(this.accountNumber,newDetail);
         }
-        br.close();
-        if(changed){
-            BufferedWriter bw=new BufferedWriter(new FileWriter(AccountHolderFile));
-            for (int i = 0; i < lines.size(); i++) {
-                bw.write(lines.get(i));
-                bw.newLine();
-            }
-            bw.close();
-        }
-        return changed;
+        return false;
     }
     private static final double cardCharges = 2230.0;
     private Random random = new Random();
@@ -628,7 +457,7 @@ class SavingsAccountHolder extends AccountHolder {
                     bw.newLine();
                 }
                 bw.close();
-                Transaction t = new Transaction(SavingsAccountHolder.getAccountHolderObject(this.id));
+                Transaction t = new Transaction(SavingsAccountHolder.getAccountObject(this.id));
                 t.storeNewTransaction("Interest Deposited into Account", interestAmount, "Interest Deposit");
             }
             return updatedBalance;
@@ -638,27 +467,19 @@ class SavingsAccountHolder extends AccountHolder {
     public SavingsAccountHolder(String id, String name, double balance, String age, String gender, String username, String accountNumber, String password, String accType, String address, String contact, String cnic, String email) {
         super(id, name, balance, age, gender, username, accountNumber, password, accType, address, contact, cnic, email);
     }
-
-//    public SavingsAccountHolder(String name, String age, String gender, String username, String password, String accType, String address, String contact, String cnic, String email) throws IOException {
-//        super(name, age, gender, username, password, accType, address, contact, cnic, email);
-//    }
     public SavingsAccountHolder(String name, String age, String gender, String accType, String address, String contact, String cnic, String email) throws IOException { // constructor when request accepted as auto username and password would be assigned
         super(name, age, gender, accType, address, contact, cnic, email);
     }
 
-    public static SavingsAccountHolder getAccountHolderObject(String id) throws IOException {
-        try (BufferedReader br = new BufferedReader(new FileReader("src/Account_Holders.txt"))) {
-            String newline;
-            while ((newline = br.readLine()) != null) {
-                String[] details = newline.split(",");
-                if (id.equalsIgnoreCase(details[0])) {
-                    return new SavingsAccountHolder(details[0], details[1], Double.parseDouble(details[2]), details[3], details[4], details[5], details[6], details[7], details[8], details[9], details[10], details[11], details[12]);
-                }
-            }
-        }
-        return null;
+    protected SavingsAccountHolder(String name1, String age1, String gender1, String address1, String contact1, String cnic1, String email1,String name2, String age2, String gender2, String address2, String contact2, String cnic2, String email2,String accType,String accTitle){ // used when admin opens account
+        super(name1,age1,gender1,address1,contact1,cnic1,email1,name2,age2,gender2,address2,contact2,cnic2,email2,accType,accTitle);
     }
-}
+
+    public static SavingsAccountHolder getAccountObject(String id) throws IOException {
+        String[] details = AccountHolderDAO.getAccountDetailsByID(id);
+        return new SavingsAccountHolder(details[0], details[1], Double.parseDouble(details[2]), details[3], details[4], details[5], details[6], details[7], details[8], details[9], details[10], details[11], details[12]);
+    }
+    }
 
 class CurrentAccountHolder extends AccountHolder {
 
@@ -684,6 +505,9 @@ class CurrentAccountHolder extends AccountHolder {
 //    }
     public CurrentAccountHolder(String name, String age, String gender, String accType, String address, String contact, String cnic, String email) throws IOException {
         super(name, age, gender, accType, address, contact, cnic, email);
+    }
+    protected CurrentAccountHolder(String name1, String age1, String gender1, String address1, String contact1, String cnic1, String email1,String name2, String age2, String gender2, String address2, String contact2, String cnic2, String email2,String accType,String accTitle){ // used when admin opens account
+        super(name1,age1,gender1,address1,contact1,cnic1,email1,name2,age2,gender2,address2,contact2,cnic2,email2,accType,accTitle);
     }
 }
 enum Gender{

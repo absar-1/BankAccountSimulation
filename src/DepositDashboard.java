@@ -92,7 +92,7 @@ public class DepositDashboard extends JFrame {  // by hateem
                         double amount = Double.parseDouble(amountTF.getText());
                         String accNum=accNumTF.getText();
                         try {
-                            if(AccountHolder.checkAccountHolder(accNum)) {
+                            if(AccountHolder.checkAccount(accNum)) {
                                 LocalDateTime dateNtime = LocalDateTime.now();
                                 boolean success = TransactionDAO.deposit(accNum, amount, true);
                                 if (success) {

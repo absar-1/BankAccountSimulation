@@ -217,7 +217,7 @@ public class TransactionDAO {
 
                 // insert transaction rows for sender and receiver
                 insertTransactionRecord(conn, senderId, "Money Transferred to " + receiverName, amount, "Transfer");
-                insertTransactionRecord(conn, recvId, "Money Received from " + AccountHolderDAO.getNameByAccountNumber(senderAccNum), amount, "Transfer Received");
+                insertTransactionRecord(conn, recvId, "Money Received from " + AccountHolderDAO.getTitleByAccountNumber(senderAccNum), amount, "Transfer Received");
 
             } else {
                 // external transfer: verify external account exists in OtherBankAccountHolders

@@ -486,4 +486,26 @@ public class Validations {
             return true;
         }
     }
+
+    public static boolean checkTitle(String title){
+        if(title == null || title.isEmpty()) {
+            return false;
+        }
+        else{
+            String[] titles=title.split(" ");
+            if(titles.length<2){
+                return false;
+            }
+            else{
+                for (int i = 0; i < titles.length ; i++) {
+                    for (int j = 0; j <titles[i].length(); j++) {
+                        if(!Character.isLetter(titles[i].charAt(j))){
+                            return false;
+                        }
+                    }
+                }
+            }
+            return true;
+        }
+    }
 }
